@@ -41,17 +41,20 @@ public class GymMemberPaymentController {
 
 
     @PostMapping("/gymMemberPayments/addPayment")
-    public ResponseEntity<?>  addGymMemberPayment( @RequestBody GymMemberPayment gymMemberPayment){
-        if (gymMemberPayment.toString().equals("{}")) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("nothing insert in form");
+    public ResponseEntity<?>  addGymMemberPayment( @RequestBody GymMemberPayment gymMemberPayment) {
 
-        }
+        try {
 
-        if (gymMemberPayment !=null){
-            gymMemberPaymentService.addGymMemberPayment(gymMemberPayment);
-            return ResponseEntity.status(HttpStatus.OK).body("Payment added successfully");
+            if (gymMemberPayment.toString().equals("{}")) {
+
+                return GymResponseHandler.generateResponse("Please Check Your Data", HttpStatus.OK,null);
+            } else {
+                gymMemberPaymentService.addGymMemberPayment(gymMemberPayment);
+                return GymResponseHandler.generateResponse("Payment Saved Successful !", HttpStatus.OK,gymMemberPayment);
+            }
+        }catch (Exception e){
+            return GymResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS,null);
         }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error in request");
     }
 
     @GetMapping("/gymMemberPayment/{memberId}")
@@ -63,7 +66,6 @@ public class GymMemberPaymentController {
             Double dueAmount = gymMemberPayment.getGymPackageSubCategory().getGymPackageSubCategoryPrice() - gymMemberPayment.getGymPackagePaidAmount();
             DueAmountResponse dueAmountResponse = new DueAmountResponse();
             dueAmountResponse.setDueAmount(dueAmount);
-
             return GymResponseHandler.generateResponse("Successfully Retrieved Data !" , HttpStatus.OK, dueAmountResponse);
         } catch (Exception e){
             return GymResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);

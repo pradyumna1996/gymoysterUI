@@ -2,7 +2,6 @@ package com.oystergms.oysterapi.gymattendance.memberattendance.controller;
 
 import com.oystergms.oysterapi.gymattendance.memberattendance.model.GymMemberAttendance;
 import com.oystergms.oysterapi.gymattendance.memberattendance.service.GymMemberAttendanceService;
-import com.oystergms.oysterapi.gymevents.model.GymEvents;
 import com.oystergms.oysterapi.gymhandler.GymResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +12,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-public class MemberAttendanceController {
+public class GymMemberAttendanceController {
 
     @Autowired
     private GymMemberAttendanceService gymMemberAttendanceService;

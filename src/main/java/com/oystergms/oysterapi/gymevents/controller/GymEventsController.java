@@ -4,12 +4,11 @@ package com.oystergms.oysterapi.gymevents.controller;
 import com.oystergms.oysterapi.gymevents.model.GymEvents;
 import com.oystergms.oysterapi.gymevents.service.GymEventsService;
 import com.oystergms.oysterapi.gymhandler.GymResponseHandler;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 @CrossOrigin
@@ -32,18 +31,17 @@ public class GymEventsController {
     }
 
     @PostMapping("/gymEvents/addEvent")
-    public ResponseEntity<?> addGymEvent( @RequestBody GymEvents gymEvents) {
-        if (gymEvents.toString().equals("{}")) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("nothing insert in form");
-        }
-            if (gymEvents == null) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("nothing insert in form");
-            }
-            if (gymEvents != null) {
+    public ResponseEntity<Object> addGymEvent( @RequestBody GymEvents gymEvents) {
+        try {
+            if (gymEvents.toString().equals("{}")) {
+                return GymResponseHandler.generateResponse("Error in Request", HttpStatus.MULTI_STATUS, null);
+            }else {
                 gymEventsService.addGymEvent(gymEvents);
-                return GymResponseHandler.generateResponse("Events Entered Successful.",HttpStatus.OK,gymEvents);
+                return GymResponseHandler.generateResponse("Events Entered Successful.", HttpStatus.OK, gymEvents);
             }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error in request");
+            }catch (Exception e){
+            return GymResponseHandler.generateResponse(e.getMessage(),HttpStatus.MULTI_STATUS,null);
+        }
     }
 
     @PutMapping("/gymEvents/editEvent/{gymEventId}")
@@ -61,4 +59,7 @@ public class GymEventsController {
             return GymResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
         }
     }
+
+
+
 }
