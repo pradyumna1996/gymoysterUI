@@ -3,6 +3,7 @@ package com.oystergms.oysterapi.gymevents.controller;
 
 import com.oystergms.oysterapi.gymevents.model.GymEvents;
 import com.oystergms.oysterapi.gymevents.service.GymEventsService;
+import com.oystergms.oysterapi.gymhandler.GymResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,12 +21,13 @@ public class GymEventsController {
     }
 
     @GetMapping("/gymEvents")
-    public ResponseEntity <List<GymEvents>>getAllGymEvents(){
-        List<GymEvents> gymEvents = gymEventsService.getAllGymEvents();
-        if ( gymEvents.size()<=0){
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        } else{
-            return ResponseEntity.of(Optional.of(gymEvents));
+    public ResponseEntity<Object> getAllGymEvents(){
+
+        try {
+            List<GymEvents> gymEvents = gymEventsService.getAllGymEvents();
+            return GymResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK, gymEvents);
+        } catch (Exception e) {
+            return GymResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
         }
     }
 
@@ -39,7 +41,7 @@ public class GymEventsController {
             }
             if (gymEvents != null) {
                 gymEventsService.addGymEvent(gymEvents);
-                return ResponseEntity.status(HttpStatus.OK).body("Events added successfully");
+                return GymResponseHandler.generateResponse("Events Entered Successful.",HttpStatus.OK,gymEvents);
             }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error in request");
     }
@@ -50,8 +52,13 @@ public class GymEventsController {
     }
 
     @DeleteMapping("/gymEvents/deleteEvent/{gymEventId}")
-    public ResponseEntity<?> deleteGymEvent(@PathVariable("gymEventId") Integer gymEventId){
-        gymEventsService.deleteGymEvent(gymEventId);
-        return ResponseEntity.status(HttpStatus.OK).body("The selected event was deleted");
+    public ResponseEntity<Object> deleteGymEvent(@PathVariable("gymEventId") Integer gymEventId){
+
+        try {
+            String result = gymEventsService.deleteGymEvent(gymEventId);
+            return GymResponseHandler.generateResponse("Event Deleted!", HttpStatus.OK, result);
+        } catch (Exception e) {
+            return GymResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
+        }
     }
 }

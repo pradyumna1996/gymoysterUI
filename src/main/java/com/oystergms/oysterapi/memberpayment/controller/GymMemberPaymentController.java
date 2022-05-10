@@ -25,12 +25,17 @@ public class GymMemberPaymentController {
     }
 
     @GetMapping("/gymMemberPayments")
-    public ResponseEntity<List<GymMemberPayment>> getAllMemberPayments(){
+    public ResponseEntity<Object> getAllMemberPayments(){
+        try{
         List<GymMemberPayment> gymMemberPayments = gymMemberPaymentService.getAllGymMemberPayment();
         if (gymMemberPayments.size()<=0){
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            return GymResponseHandler.generateResponse("Nothing in Payments",HttpStatus.OK,null);
         }else{
-            return  ResponseEntity.of(Optional.of(gymMemberPayments));
+            return  GymResponseHandler.generateResponse("Member Payments Fetched Successfull.",HttpStatus.OK,gymMemberPayments);
+
+        }
+        }catch(Exception e){
+            return  GymResponseHandler.generateResponse(e.getMessage(),HttpStatus.MULTI_STATUS,null);
         }
     }
 

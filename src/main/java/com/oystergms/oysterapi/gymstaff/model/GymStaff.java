@@ -28,7 +28,7 @@ public class GymStaff {
 
     private String gymStaffAddress;
 
-    private String gymStaffContact;
+    private String gymStaffContactNumber;
 
     @ElementCollection
     private List<GymStaffDocuments> gymStaffDocuments = new ArrayList<GymStaffDocuments>();

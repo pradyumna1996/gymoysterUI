@@ -28,7 +28,7 @@ public class GymPackageSubCategory {
 
     private Double gymPackageSubCategoryOfferPrice;
 
-    private Double gymPackageSubCategoryPhoto;
+    private String gymPackageSubCategoryPhoto;
 
     @ManyToOne
     @JoinColumn(name = "gym_package_main_category_id")

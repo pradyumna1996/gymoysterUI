@@ -1,16 +1,16 @@
 package com.oystergms.oysterapi.gympackagescategory.subcategories.controller;
 
 
-import com.oystergms.oysterapi.gympackagescategory.maincategory.model.GymPackageMainCategory;
+import com.oystergms.oysterapi.gymhandler.GymResponseHandler;
 import com.oystergms.oysterapi.gympackagescategory.subcategories.model.GymPackageSubCategory;
 import com.oystergms.oysterapi.gympackagescategory.subcategories.service.GymPackageSubCategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 @CrossOrigin
@@ -23,33 +23,31 @@ public class GymPackageSubCategoryController {
     }
 
     @GetMapping("/gymSubPackages")
-    public ResponseEntity<List<GymPackageSubCategory>> getAllSubPackages(){
+    public ResponseEntity<Object> getAllSubPackages(){
         List<GymPackageSubCategory> gymPackageSubCategories= gymPackageSubCategoryService.getSubCategories();
         if (gymPackageSubCategories.size()<=0){
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            return GymResponseHandler.generateResponse("Nothing in Sub Packages", HttpStatus.OK,null);
         }else{
-            return  ResponseEntity.of(Optional.of(gymPackageSubCategories));
+            return  GymResponseHandler.generateResponse("Sub Packages Fetched ",HttpStatus.OK ,gymPackageSubCategories);
         }
     }
 
 
 
     @PostMapping("/gymSubPackages/addSubPackage")
-    public ResponseEntity<?>  addMember( @RequestBody GymPackageSubCategory gymPackageSubCategory){
+    public ResponseEntity<Object>  addMember( @RequestBody GymPackageSubCategory gymPackageSubCategory){
 
-        if (gymPackageSubCategory.toString().equals("{}")) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("nothing insert in form");
-
-        }
-        if (gymPackageSubCategory ==null) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("nothing inset in form");
-        }
-        if (gymPackageSubCategory !=null){
+        try {
+            if (gymPackageSubCategory.toString().equals("{}")) {
+                return GymResponseHandler.generateResponse("Error In Request",HttpStatus.BAD_REQUEST,null);
+            }
             gymPackageSubCategoryService.addSubCategory(gymPackageSubCategory);
-            return ResponseEntity.status(HttpStatus.OK).body("Sub Package added successfully");
+            return GymResponseHandler.generateResponse("Sub Package Added !",HttpStatus.OK,gymPackageSubCategory);
+        }catch(Exception e){
+            return GymResponseHandler.generateResponse(e.getMessage(),HttpStatus.MULTI_STATUS,null);
         }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error in request");
     }
 
 
+    
 }

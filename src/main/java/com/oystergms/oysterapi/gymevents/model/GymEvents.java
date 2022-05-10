@@ -27,7 +27,7 @@ public class GymEvents {
    @Temporal(TemporalType.DATE)
     private Date gymEventEndDate;
 
-    private String eventPhoto;
+    private String gymEventPhoto;
 
     private String gymEventDescription;
 }

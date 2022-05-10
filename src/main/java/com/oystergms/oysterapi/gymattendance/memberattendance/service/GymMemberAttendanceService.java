@@ -27,8 +27,9 @@ public class GymMemberAttendanceService {
     }
 
 
-    public void deleteMemberAttendance(Integer gymMemberAttendanceId) {
+    public String deleteMemberAttendance(Integer gymMemberAttendanceId) {
         gymMemberAttendanceRepository.deleteById(gymMemberAttendanceId);
+        return "Selected Attendance Was Deleted";
     }
 
     public List<GymMemberAttendance> getTodayAttendanceList(String today) {

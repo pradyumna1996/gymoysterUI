@@ -1,5 +1,6 @@
 package com.oystergms.oysterapi.membersubscription.controller;
 
+import com.oystergms.oysterapi.gymhandler.GymResponseHandler;
 import com.oystergms.oysterapi.gymmember.model.GymMember;
 import com.oystergms.oysterapi.membersubscription.model.GymMemberPackageSubscription;
 import com.oystergms.oysterapi.membersubscription.service.GymMemberPackageSubscriptionService;
@@ -24,29 +25,33 @@ public class GymMemberPackageSubscriptionController {
 
 
     @GetMapping("/memberSubscriptions")
-    public ResponseEntity<List<GymMemberPackageSubscription>> getAllMemberSubscriptions(){
+    public ResponseEntity<Object> getAllMemberSubscriptions(){
         List<GymMemberPackageSubscription> gymMemberPackageSubscriptions = gymMemberPackageSubscriptionService.getAllGymMemberSubscriptions();
+        try{
+
         if (gymMemberPackageSubscriptions.size()<=0){
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            return GymResponseHandler.generateResponse("No Subscriptions Added", HttpStatus.OK,null);
         }else{
-            return  ResponseEntity.of(Optional.of(gymMemberPackageSubscriptions));
+            return  GymResponseHandler.generateResponse("Member Subscriptions Fetched Successfully !",HttpStatus.OK,gymMemberPackageSubscriptions);
+        }
+        }catch (Exception e){
+            return GymResponseHandler.generateResponse(e.getMessage(),HttpStatus.MULTI_STATUS,null);
         }
     }
 
 
     @PostMapping("/memberSubscriptions/addSubscription")
-    public ResponseEntity<?>  addGymMemberPackageSubscription( @RequestBody GymMemberPackageSubscription gymMemberPackageSubscription){
-        if (gymMemberPackageSubscription.toString().equals("{}")) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("nothing insert in form");
+    public ResponseEntity<Object>  addGymMemberPackageSubscription( @RequestBody GymMemberPackageSubscription gymMemberPackageSubscription){
 
-        }
-        if (gymMemberPackageSubscription ==null) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("nothing inset in form");
-        }
-        if (gymMemberPackageSubscription !=null){
+        try{
+        if (gymMemberPackageSubscription.toString().equals("{}")) {
+            return GymResponseHandler.generateResponse("Error in Request",HttpStatus.OK,null);
+        }else {
             gymMemberPackageSubscriptionService.addGymMemberPackageSubscription(gymMemberPackageSubscription);
-            return ResponseEntity.status(HttpStatus.OK).body("Member Subscription added successfully");
+            return GymResponseHandler.generateResponse("Member Subscription added successfully", HttpStatus.OK, gymMemberPackageSubscription);
         }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error in request");
+        }catch(Exception e){
+        return GymResponseHandler.generateResponse(e.getMessage(), HttpStatus.OK,null);
+    }
     }
 }

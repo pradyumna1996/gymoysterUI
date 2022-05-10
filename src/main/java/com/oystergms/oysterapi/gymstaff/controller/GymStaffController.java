@@ -1,5 +1,6 @@
 package com.oystergms.oysterapi.gymstaff.controller;
 
+import com.oystergms.oysterapi.gymhandler.GymResponseHandler;
 import com.oystergms.oysterapi.gymmember.model.GymMember;
 import com.oystergms.oysterapi.gymstaff.model.GymStaff;
 import com.oystergms.oysterapi.gymstaff.service.GymStaffRepositoryService;
@@ -22,30 +23,30 @@ public class GymStaffController {
     }
 
     @GetMapping("/gymStaffs")
-    public ResponseEntity<List<GymStaff>> getAllStaffs(){
+    public ResponseEntity<Object> getAllStaffs(){
+
         List<GymStaff> gymStaffs = gymStaffRepositoryService.getAllGymStaffs();
         if (gymStaffs.size()<=0){
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }else{
-            return  ResponseEntity.of(Optional.of(gymStaffs));
+            return GymResponseHandler.generateResponse("No Staffs in the List", HttpStatus.OK,null);
+        }
+        else{
+            return  GymResponseHandler.generateResponse("Staffs Fetched Successfully !",HttpStatus.OK,gymStaffs);
         }
     }
 
 
     @PostMapping("/gymStaffs/addStaff")
-    public ResponseEntity<?>  addGymStaff( @RequestBody GymStaff gymStaff){
+    public ResponseEntity<Object>  addGymStaff( @RequestBody GymStaff gymStaff) {
 
         if (gymStaff.toString().equals("{}")) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("nothing insert in form");
+            return GymResponseHandler.generateResponse("Form is Wrong Filled", HttpStatus.OK, null);
         }
-        if (gymStaff ==null) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("nothing inset in form");
+        else if (gymStaff == null) {
+            return GymResponseHandler.generateResponse("Something is wrong", HttpStatus.INTERNAL_SERVER_ERROR, null);
         }
-
-        if (gymStaff !=null){
-            gymStaffRepositoryService.addGymStaff(gymStaff);
-            return ResponseEntity.status(HttpStatus.OK).body("Staff added successfully");
-        }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error in request");
+        gymStaffRepositoryService.addGymStaff(gymStaff);
+        return GymResponseHandler.generateResponse("Staff Added Successfully !", HttpStatus.OK, gymStaff);
     }
+
+
 }

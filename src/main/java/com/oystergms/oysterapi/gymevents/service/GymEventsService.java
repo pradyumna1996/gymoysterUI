@@ -27,7 +27,8 @@ public class GymEventsService {
         gymEventsRepository.save(gymEvents);
     }
 
-    public void deleteGymEvent(Integer gymEventId) {
+    public String deleteGymEvent(Integer gymEventId) {
         gymEventsRepository.deleteById(gymEventId);
+        return "The Selected Event Was Deleted";
     }
 }
