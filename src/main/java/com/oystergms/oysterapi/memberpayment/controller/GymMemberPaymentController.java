@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 @CrossOrigin
@@ -31,7 +31,7 @@ public class GymMemberPaymentController {
         if (gymMemberPayments.size()<=0){
             return GymResponseHandler.generateResponse("Nothing in Payments",HttpStatus.OK,null);
         }else{
-            return  GymResponseHandler.generateResponse("Member Payments Fetched Successfull.",HttpStatus.OK,gymMemberPayments);
+            return  GymResponseHandler.generateResponse("Member Payments Fetched Successful.",HttpStatus.OK,gymMemberPayments);
 
         }
         }catch(Exception e){
