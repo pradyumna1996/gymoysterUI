@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GymPackageMainCategoryService {
@@ -29,4 +30,8 @@ public class GymPackageMainCategoryService {
     }
 
 
+    public String deleteGymPackage(Integer gymPackageId) {
+        gymPackageMainCategoryRepository.deleteById(gymPackageId);
+        return " Selected Package Category is Deleted ";
+    }
 }

@@ -48,5 +48,15 @@ public class GymStaffController {
         return GymResponseHandler.generateResponse("Staff Added Successfully !", HttpStatus.OK, gymStaff);
     }
 
+    @DeleteMapping("/gymStaffs/deleteGymStaff/{gymStaffId}")
+    public ResponseEntity<Object> deleteGymStaffById(@PathVariable("gymStaffId") Integer gymStaffId){
+
+        try {
+            String result = gymStaffRepositoryService.deleteGymStaffById(gymStaffId);
+            return GymResponseHandler.generateResponse("Selected Staff is Deleted!", HttpStatus.OK, result);
+        } catch (Exception e) {
+            return GymResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
+        }
+    }
 
 }

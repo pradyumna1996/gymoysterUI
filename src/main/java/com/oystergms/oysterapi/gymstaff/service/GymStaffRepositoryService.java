@@ -24,4 +24,9 @@ public class GymStaffRepositoryService {
     public void addGymStaff(GymStaff gymStaff) {
         gymStaffRepository.save(gymStaff);
     }
+
+    public String deleteGymStaffById(Integer gymStaffId) {
+        gymStaffRepository.deleteById(gymStaffId);
+        return "Staff Deleted Successfully !";
+    }
 }

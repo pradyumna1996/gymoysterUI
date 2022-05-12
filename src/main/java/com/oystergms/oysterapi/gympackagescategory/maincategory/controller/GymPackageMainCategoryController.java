@@ -43,4 +43,15 @@ public class GymPackageMainCategoryController {
         }
     }
 
+    @DeleteMapping("/gymPackages/deletePackage/{gymPackageId}")
+    public ResponseEntity<Object> deleteGymPackage(@PathVariable("gymPackageId") Integer gymPackageId){
+
+        try {
+            String result = gymPackageMainCategoryService.deleteGymPackage(gymPackageId);
+            return GymResponseHandler.generateResponse("Selected Package is Deleted!", HttpStatus.OK, result);
+        } catch (Exception e) {
+            return GymResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
+        }
+    }
+
 }

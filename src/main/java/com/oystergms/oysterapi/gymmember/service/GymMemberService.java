@@ -24,4 +24,9 @@ public class GymMemberService {
     public void addGymMember(GymMember gymMember) {
         gymMemberRepository.save(gymMember);
     }
+
+    public String deleteGymMemberById(Integer gymMemberId) {
+        gymMemberRepository.deleteById(gymMemberId);
+        return "Selected Member Deleted !";
+    }
 }

@@ -45,5 +45,17 @@ public class GymMemberController {
             return GymResponseHandler.generateResponse(e.getMessage(),HttpStatus.MULTI_STATUS,null);
         }
     }
+
+    @DeleteMapping("/gymMembers/deleteGymMember/{gymMemberId}")
+    public ResponseEntity<Object> deleteGymMember(@PathVariable("gymMemberId") Integer gymMemberId){
+
+        try {
+            String result = gymMemberService.deleteGymMemberById(gymMemberId);
+            return GymResponseHandler.generateResponse("Selected Member is Deleted!", HttpStatus.OK, result);
+        } catch (Exception e) {
+            return GymResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
+        }
+    }
+
 }
 

@@ -49,5 +49,14 @@ public class GymPackageSubCategoryController {
     }
 
 
-    
+    @DeleteMapping("/gymSubPackages/deleteSubPackage/{gymSubPackageId}")
+    public ResponseEntity<Object> deleteGymEvent(@PathVariable("gymSubPackageId") Integer gymSubPackageId){
+
+        try {
+            String result = gymPackageSubCategoryService.deleteGymSubPackage(gymSubPackageId);
+            return GymResponseHandler.generateResponse("Deleted Sub Package!", HttpStatus.OK, result);
+        } catch (Exception e) {
+            return GymResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
+        }
+    }
 }
