@@ -32,7 +32,6 @@ public class GymMemberPaymentController {
             return GymResponseHandler.generateResponse("Nothing in Payments",HttpStatus.OK,null);
         }else{
             return  GymResponseHandler.generateResponse("Member Payments Fetched Successful.",HttpStatus.OK,gymMemberPayments);
-
         }
         }catch(Exception e){
             return  GymResponseHandler.generateResponse(e.getMessage(),HttpStatus.MULTI_STATUS,null);
