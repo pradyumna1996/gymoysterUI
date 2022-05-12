@@ -50,6 +50,7 @@ public class GymPackageSubCategoryController {
 
 
     @DeleteMapping("/gymSubPackages/deleteSubPackage/{gymSubPackageId}")
+    @CrossOrigin
     public ResponseEntity<Object> deleteGymEvent(@PathVariable("gymSubPackageId") Integer gymSubPackageId){
 
         try {

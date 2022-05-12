@@ -44,6 +44,7 @@ public class GymPackageMainCategoryController {
     }
 
     @DeleteMapping("/gymPackages/deletePackage/{gymPackageId}")
+    @CrossOrigin
     public ResponseEntity<Object> deleteGymPackage(@PathVariable("gymPackageId") Integer gymPackageId){
 
         try {

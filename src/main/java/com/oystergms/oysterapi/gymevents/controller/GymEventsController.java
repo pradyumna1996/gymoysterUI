@@ -50,6 +50,7 @@ public class GymEventsController {
     }
 
     @DeleteMapping("/gymEvents/deleteEvent/{gymEventId}")
+    @CrossOrigin
     public ResponseEntity<Object> deleteGymEvent(@PathVariable("gymEventId") Integer gymEventId){
 
         try {

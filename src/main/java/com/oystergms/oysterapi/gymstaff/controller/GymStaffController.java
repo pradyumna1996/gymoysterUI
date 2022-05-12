@@ -49,6 +49,7 @@ public class GymStaffController {
     }
 
     @DeleteMapping("/gymStaffs/deleteGymStaff/{gymStaffId}")
+    @CrossOrigin
     public ResponseEntity<Object> deleteGymStaffById(@PathVariable("gymStaffId") Integer gymStaffId){
 
         try {
