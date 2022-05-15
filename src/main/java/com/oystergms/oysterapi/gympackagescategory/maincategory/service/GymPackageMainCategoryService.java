@@ -2,12 +2,9 @@ package com.oystergms.oysterapi.gympackagescategory.maincategory.service;
 
 import com.oystergms.oysterapi.gympackagescategory.maincategory.model.GymPackageMainCategory;
 import com.oystergms.oysterapi.gympackagescategory.maincategory.repository.GymPackageMainCategoryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class GymPackageMainCategoryService {
@@ -17,6 +14,12 @@ public class GymPackageMainCategoryService {
 
     public GymPackageMainCategoryService(GymPackageMainCategoryRepository gymPackageMainCategoryRepository) {
         this.gymPackageMainCategoryRepository = gymPackageMainCategoryRepository;
+    }
+
+    public GymPackageMainCategory getMainPackagesById(Integer gymPackageId) {
+
+    return gymPackageMainCategoryRepository.findById(gymPackageId).get();
+
     }
 
 
@@ -33,5 +36,10 @@ public class GymPackageMainCategoryService {
     public String deleteGymPackage(Integer gymPackageId) {
         gymPackageMainCategoryRepository.deleteById(gymPackageId);
         return " Selected Package Category is Deleted ";
+    }
+
+    public String updateGymPackage(GymPackageMainCategory gymPackageMainCategory) {
+        gymPackageMainCategoryRepository.save(gymPackageMainCategory);
+        return "Package Edited Successful";
     }
 }

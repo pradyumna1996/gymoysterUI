@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -29,6 +30,29 @@ public class GymPackageMainCategoryController {
         }
     }
 
+    @GetMapping("/gymPackages/{gymPackageId}")
+    public ResponseEntity<Object> getMainPackagesById(@PathVariable("gymPackageId") Integer gymPackageId){
+
+        GymPackageMainCategory gymPackageMainCategory = gymPackageMainCategoryService.getMainPackagesById(gymPackageId);
+
+         if (gymPackageMainCategory == null){
+            return GymResponseHandler.generateResponse("Nothing in Packages !. Please Add.",HttpStatus.OK,null);
+        }else{
+            return  GymResponseHandler.generateResponse("Packages Fetched !", HttpStatus.OK,gymPackageMainCategory);
+        }
+    }
+
+    @PutMapping("/gymPackages/updatePackage")
+    public ResponseEntity<Object>  updateMember( @RequestBody GymPackageMainCategory gymPackageMainCategory){
+
+        if (gymPackageMainCategory.toString().equals("{}")) {
+            return GymResponseHandler.generateResponse("Error In Request",HttpStatus.INTERNAL_SERVER_ERROR,null);
+        }
+        else {
+            String result = gymPackageMainCategoryService.updateGymPackage(gymPackageMainCategory);
+            return GymResponseHandler.generateResponse("Package Modified Added !",HttpStatus.OK,result);
+        }
+    }
 
     @PostMapping("/gymPackages/addPackage")
     public ResponseEntity<Object>  addMember( @RequestBody GymPackageMainCategory gymPackageMainCategory){

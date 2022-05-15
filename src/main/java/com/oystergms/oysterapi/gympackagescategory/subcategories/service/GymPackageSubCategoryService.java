@@ -32,4 +32,13 @@ public class GymPackageSubCategoryService {
         gymPackageSubCategoryRepository.deleteById(gymSubPackageId);
         return "Selected Sub Package is Deleted";
     }
+
+    public String updateGymSubPackage(GymPackageSubCategory gymPackageSubCategory) {
+        gymPackageSubCategoryRepository.save(gymPackageSubCategory);
+        return "Gym Package Edited";
+    }
+
+    public GymPackageSubCategory getSubPackagesById(Integer gymSubPackageId) {
+        return gymPackageSubCategoryRepository.findById(gymSubPackageId).get();
+    }
 }

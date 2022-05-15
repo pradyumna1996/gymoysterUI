@@ -2,6 +2,7 @@ package com.oystergms.oysterapi.gympackagescategory.subcategories.controller;
 
 
 import com.oystergms.oysterapi.gymhandler.GymResponseHandler;
+import com.oystergms.oysterapi.gympackagescategory.maincategory.model.GymPackageMainCategory;
 import com.oystergms.oysterapi.gympackagescategory.subcategories.model.GymPackageSubCategory;
 import com.oystergms.oysterapi.gympackagescategory.subcategories.service.GymPackageSubCategoryService;
 
@@ -29,6 +30,30 @@ public class GymPackageSubCategoryController {
             return GymResponseHandler.generateResponse("Nothing in Sub Packages", HttpStatus.OK,null);
         }else{
             return  GymResponseHandler.generateResponse("Sub Packages Fetched ",HttpStatus.OK ,gymPackageSubCategories);
+        }
+    }
+
+    @GetMapping("/gymSubPackages/{gymSubPackageId}")
+    public ResponseEntity<Object> getSubPackagesById(@PathVariable("gymSubPackageId") Integer gymSubPackageId){
+
+        GymPackageSubCategory gymPackageSubCategory = gymPackageSubCategoryService.getSubPackagesById(gymSubPackageId);
+
+        if (gymPackageSubCategory == null){
+            return GymResponseHandler.generateResponse("Nothing in Packages !. ",HttpStatus.OK,null);
+        }else{
+            return  GymResponseHandler.generateResponse("Sub Package Fetched !", HttpStatus.OK,gymPackageSubCategory);
+        }
+    }
+
+    @PutMapping("/gymSubPackages/updateSubPackage")
+    public ResponseEntity<Object>  updateSubPackage( @RequestBody GymPackageSubCategory gymPackageSubCategory){
+
+        if (gymPackageSubCategory.toString().equals("{}")) {
+            return GymResponseHandler.generateResponse("Error In Request",HttpStatus.INTERNAL_SERVER_ERROR,null);
+        }
+        else {
+            String result = gymPackageSubCategoryService.updateGymSubPackage(gymPackageSubCategory);
+            return GymResponseHandler.generateResponse("Package Modified Added !",HttpStatus.OK,result);
         }
     }
 
