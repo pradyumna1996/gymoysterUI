@@ -29,4 +29,13 @@ public class GymStaffRepositoryService {
         gymStaffRepository.deleteById(gymStaffId);
         return "Staff Deleted Successfully !";
     }
+
+    public GymStaff getGymStaffById(Integer gymStaffId) {
+        return gymStaffRepository.findById(gymStaffId).get();
+    }
+
+    public String updateGymStaff(GymStaff gymStaff) {
+        gymStaffRepository.save(gymStaff);
+        return "Gym Staff Updated";
+    }
 }

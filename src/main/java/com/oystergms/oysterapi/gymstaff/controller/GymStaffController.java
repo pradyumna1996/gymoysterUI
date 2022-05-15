@@ -34,6 +34,19 @@ public class GymStaffController {
         }
     }
 
+    @GetMapping("/gymStaffs/{gymStaffId}")
+    public ResponseEntity<Object> getStaffById(@PathVariable("gymStaffId") Integer gymStaffId){
+
+        GymStaff gymStaff = gymStaffRepositoryService.getGymStaffById(gymStaffId);
+        if (gymStaff==null){
+            return GymResponseHandler.generateResponse("No Staff with such id", HttpStatus.OK,null);
+        }
+        else{
+            return  GymResponseHandler.generateResponse("Staffs Fetched Successfully !",HttpStatus.OK,gymStaff);
+        }
+    }
+
+
 
     @PostMapping("/gymStaffs/addStaff")
     public ResponseEntity<Object>  addGymStaff( @RequestBody GymStaff gymStaff) {
@@ -47,6 +60,21 @@ public class GymStaffController {
         gymStaffRepositoryService.addGymStaff(gymStaff);
         return GymResponseHandler.generateResponse("Staff Added Successfully !", HttpStatus.OK, gymStaff);
     }
+
+    @PutMapping("/gymStaffs/updateStaff")
+    public ResponseEntity<Object>  updateGymStaff( @RequestBody GymStaff gymStaff) {
+
+        if (gymStaff.toString().equals("{}")) {
+            return GymResponseHandler.generateResponse("Form is Wrong Filled", HttpStatus.OK, null);
+        }
+        else if (gymStaff == null) {
+            return GymResponseHandler.generateResponse("Something is wrong", HttpStatus.INTERNAL_SERVER_ERROR, null);
+        }
+        String result = gymStaffRepositoryService.updateGymStaff(gymStaff);
+        return GymResponseHandler.generateResponse("Staff Updated Successfully !", HttpStatus.OK, result
+        );
+    }
+
 
     @DeleteMapping("/gymStaffs/deleteGymStaff/{gymStaffId}")
     @CrossOrigin

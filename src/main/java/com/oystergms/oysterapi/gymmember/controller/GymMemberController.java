@@ -30,6 +30,16 @@ public class GymMemberController {
         }
     }
 
+    @GetMapping("/gymMembers/{gymMemberId}")
+    public ResponseEntity<Object> getMemberById(@PathVariable("gymMemberId") Integer gymMemberId){
+        GymMember gymMembers = gymMemberService.getGymMemberById(gymMemberId);
+        if (gymMembers==null){
+            return GymResponseHandler.generateResponse("No Members in the List", HttpStatus.OK,"No Content");
+        }else{
+            return  GymResponseHandler.generateResponse("Member Fetched Successfully",HttpStatus.OK,gymMembers);
+        }
+    }
+
 
     @PostMapping("/gymMembers/addMember")
     public ResponseEntity<Object>  addGymMember( @RequestBody GymMember gymMember) {
@@ -45,6 +55,23 @@ public class GymMemberController {
             return GymResponseHandler.generateResponse(e.getMessage(),HttpStatus.MULTI_STATUS,null);
         }
     }
+
+    @PutMapping("/gymMembers/updateMember")
+    public ResponseEntity<Object>  updateGymMember( @RequestBody GymMember gymMember) {
+
+        try {
+            if (gymMember == null) {
+                return GymResponseHandler.generateResponse("Request Error ! Please Check Your Data",HttpStatus.OK,null);
+            } else {
+                String result = gymMemberService.updateGymMember(gymMember);
+                return GymResponseHandler.generateResponse("Member Updated Successful", HttpStatus.OK, result
+                );
+            }
+        }catch (Exception e){
+            return GymResponseHandler.generateResponse(e.getMessage(),HttpStatus.MULTI_STATUS,null);
+        }
+    }
+
 
     @DeleteMapping("/gymMembers/deleteGymMember/{gymMemberId}")
     @CrossOrigin

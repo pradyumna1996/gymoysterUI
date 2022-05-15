@@ -29,4 +29,13 @@ public class GymMemberService {
         gymMemberRepository.deleteById(gymMemberId);
         return "Selected Member Deleted !";
     }
+
+    public GymMember getGymMemberById(Integer gymMemberId) {
+        return gymMemberRepository.findById(gymMemberId).get();
+    }
+
+    public String updateGymMember(GymMember gymMember) {
+        gymMemberRepository.save(gymMember);
+        return "Member Updated Successful";
+    }
 }

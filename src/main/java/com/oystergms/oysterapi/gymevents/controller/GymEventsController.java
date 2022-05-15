@@ -30,6 +30,18 @@ public class GymEventsController {
         }
     }
 
+    @GetMapping("/gymEvents/{gymEventId}")
+    public ResponseEntity<Object> getGymEventById(@PathVariable("gymEventId") Integer gymEventId){
+
+        try {
+            GymEvents gymEvents = gymEventsService.getGymEventById(gymEventId);
+            return GymResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK, gymEvents);
+        } catch (Exception e) {
+            return GymResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
+        }
+    }
+
+
     @PostMapping("/gymEvents/addEvent")
     public ResponseEntity<Object> addGymEvent( @RequestBody GymEvents gymEvents) {
         try {
@@ -44,9 +56,18 @@ public class GymEventsController {
         }
     }
 
-    @PutMapping("/gymEvents/editEvent/{gymEventId}")
-    public void updateGymEvent(@RequestBody GymEvents gymEvents , @PathVariable("gymEventId") Integer gymEventId){
-        gymEventsService.updateGymEvent(gymEvents);
+    @PutMapping("/gymEvents/updateEvent/")
+    public ResponseEntity<Object> updateGymEvent( @RequestBody GymEvents gymEvents) {
+        try {
+            if (gymEvents.toString().equals("{}")) {
+                return GymResponseHandler.generateResponse("Error in Request", HttpStatus.MULTI_STATUS, null);
+            }else {
+                String result = gymEventsService.updateGymEvent(gymEvents);
+                return GymResponseHandler.generateResponse("Events Modified Successful.", HttpStatus.OK, result);
+            }
+        }catch (Exception e){
+            return GymResponseHandler.generateResponse(e.getMessage(),HttpStatus.MULTI_STATUS,null);
+        }
     }
 
     @DeleteMapping("/gymEvents/deleteEvent/{gymEventId}")

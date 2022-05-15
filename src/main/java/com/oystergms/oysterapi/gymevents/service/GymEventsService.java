@@ -23,12 +23,17 @@ public class GymEventsService {
         gymEventsRepository.save(gymEvents);
     }
 
-    public void updateGymEvent(GymEvents gymEvents) {
+    public String updateGymEvent(GymEvents gymEvents) {
         gymEventsRepository.save(gymEvents);
+        return "Event Updated !";
     }
 
     public String deleteGymEvent(Integer gymEventId) {
         gymEventsRepository.deleteById(gymEventId);
         return "The Selected Event Was Deleted";
+    }
+
+    public GymEvents getGymEventById(Integer gymEventId) {
+        return gymEventsRepository.findById(gymEventId).get();
     }
 }
