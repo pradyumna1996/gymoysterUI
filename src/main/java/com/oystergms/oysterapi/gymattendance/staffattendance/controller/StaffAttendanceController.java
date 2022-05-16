@@ -16,16 +16,19 @@ public class StaffAttendanceController {
     private GymStaffAttendanceService gymStaffAttendanceService;
 
     @GetMapping("/staffAttendance")
+    @CrossOrigin
     public List<GymStaffAttendance> getAllAttendanceList(){
         return gymStaffAttendanceService.getStaffAttendance();
     }
 
     @PostMapping("/staffAttendance")
-    public void addAttendace(@RequestBody GymStaffAttendance gymStaffAttendance){
+    @CrossOrigin
+    public void addAttendance(@RequestBody GymStaffAttendance gymStaffAttendance){
         gymStaffAttendanceService.addStaffAttendance(gymStaffAttendance);
     }
 
     @PutMapping("/staffAttendance/{staffId}")
+    @CrossOrigin
 public void updateAttendance(@RequestBody GymStaffAttendance gymStaffAttendance , @PathVariable("staffId") Integer staffId){
         gymStaffAttendanceService.updateStaffAttendance(gymStaffAttendance);
     }

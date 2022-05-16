@@ -18,6 +18,7 @@ public class GymMemberAttendanceController {
     private GymMemberAttendanceService gymMemberAttendanceService;
 
     @GetMapping("/gymMemberAttendance")
+    @CrossOrigin
     public ResponseEntity<Object> getAllAttendanceList(){
 
         try {
@@ -34,6 +35,7 @@ public class GymMemberAttendanceController {
     }
 
     @GetMapping("/gymMemberAttendance/{today}")
+    @CrossOrigin
     public ResponseEntity<Object> getTodaysAttendanceList(@PathVariable("today") String today){
 
         try {
@@ -46,6 +48,7 @@ public class GymMemberAttendanceController {
     }
 
     @PostMapping("/gymMemberAttendance")
+    @CrossOrigin
     public ResponseEntity<Object> addMemberAttendance(@RequestBody List<GymMemberAttendance> gymMemberAttendances){
 
         try {
@@ -59,11 +62,13 @@ public class GymMemberAttendanceController {
     }
 
     @PutMapping("/gymMemberAttendance/{memberAttendanceId}")
+    @CrossOrigin
     public void updateMemberAttendance(@RequestBody GymMemberAttendance gymMemberAttendance , @PathVariable("memberAttendanceId") Integer memberAttendanceId){
         gymMemberAttendanceService.updateMemberAttendance(gymMemberAttendance);
     }
 
     @DeleteMapping("/gymMemberAttendance/{memberAttendanceId}")
+    @CrossOrigin
     public ResponseEntity<Object> deleteMemberAttendance(@PathVariable("memberAttendanceId") Integer memberAttendanceId){
 
         try {

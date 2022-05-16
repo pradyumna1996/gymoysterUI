@@ -21,6 +21,7 @@ public class GymPackageMainCategoryController {
     }
 
     @GetMapping("/gymPackages")
+    @CrossOrigin
     public ResponseEntity <Object>getAllMainPackages(){
         List<GymPackageMainCategory> gymPackageMainCategories= gymPackageMainCategoryService.getMainCategories();
         if (gymPackageMainCategories.size()<=0){
@@ -31,6 +32,7 @@ public class GymPackageMainCategoryController {
     }
 
     @GetMapping("/gymPackages/{gymPackageId}")
+    @CrossOrigin
     public ResponseEntity<Object> getMainPackagesById(@PathVariable("gymPackageId") Integer gymPackageId){
 
         GymPackageMainCategory gymPackageMainCategory = gymPackageMainCategoryService.getMainPackagesById(gymPackageId);
@@ -43,6 +45,7 @@ public class GymPackageMainCategoryController {
     }
 
     @PutMapping("/gymPackages/updatePackage")
+    @CrossOrigin
     public ResponseEntity<Object>  updateMember( @RequestBody GymPackageMainCategory gymPackageMainCategory){
 
         if (gymPackageMainCategory.toString().equals("{}")) {
@@ -55,6 +58,7 @@ public class GymPackageMainCategoryController {
     }
 
     @PostMapping("/gymPackages/addPackage")
+    @CrossOrigin
     public ResponseEntity<Object>  addMember( @RequestBody GymPackageMainCategory gymPackageMainCategory){
 
         if (gymPackageMainCategory.toString().equals("{}")) {

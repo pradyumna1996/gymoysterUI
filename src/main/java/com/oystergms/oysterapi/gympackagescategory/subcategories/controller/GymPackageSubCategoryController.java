@@ -24,6 +24,7 @@ public class GymPackageSubCategoryController {
     }
 
     @GetMapping("/gymSubPackages")
+    @CrossOrigin
     public ResponseEntity<Object> getAllSubPackages(){
         List<GymPackageSubCategory> gymPackageSubCategories= gymPackageSubCategoryService.getSubCategories();
         if (gymPackageSubCategories.size()<=0){
@@ -34,6 +35,7 @@ public class GymPackageSubCategoryController {
     }
 
     @GetMapping("/gymSubPackages/{gymSubPackageId}")
+    @CrossOrigin
     public ResponseEntity<Object> getSubPackagesById(@PathVariable("gymSubPackageId") Integer gymSubPackageId){
 
         GymPackageSubCategory gymPackageSubCategory = gymPackageSubCategoryService.getSubPackagesById(gymSubPackageId);
@@ -46,6 +48,7 @@ public class GymPackageSubCategoryController {
     }
 
     @PutMapping("/gymSubPackages/updateSubPackage")
+    @CrossOrigin
     public ResponseEntity<Object>  updateSubPackage( @RequestBody GymPackageSubCategory gymPackageSubCategory){
 
         if (gymPackageSubCategory.toString().equals("{}")) {
@@ -60,6 +63,7 @@ public class GymPackageSubCategoryController {
 
 
     @PostMapping("/gymSubPackages/addSubPackage")
+    @CrossOrigin
     public ResponseEntity<Object>  addMember( @RequestBody GymPackageSubCategory gymPackageSubCategory){
 
         try {

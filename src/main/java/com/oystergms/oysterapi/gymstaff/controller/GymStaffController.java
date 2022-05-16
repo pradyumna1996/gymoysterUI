@@ -23,6 +23,7 @@ public class GymStaffController {
     }
 
     @GetMapping("/gymStaffs")
+    @CrossOrigin
     public ResponseEntity<Object> getAllStaffs(){
 
         List<GymStaff> gymStaffs = gymStaffRepositoryService.getAllGymStaffs();
@@ -35,6 +36,7 @@ public class GymStaffController {
     }
 
     @GetMapping("/gymStaffs/{gymStaffId}")
+    @CrossOrigin
     public ResponseEntity<Object> getStaffById(@PathVariable("gymStaffId") Integer gymStaffId){
 
         GymStaff gymStaff = gymStaffRepositoryService.getGymStaffById(gymStaffId);
@@ -49,6 +51,7 @@ public class GymStaffController {
 
 
     @PostMapping("/gymStaffs/addStaff")
+    @CrossOrigin
     public ResponseEntity<Object>  addGymStaff( @RequestBody GymStaff gymStaff) {
 
         if (gymStaff.toString().equals("{}")) {
@@ -62,6 +65,7 @@ public class GymStaffController {
     }
 
     @PutMapping("/gymStaffs/updateStaff")
+    @CrossOrigin
     public ResponseEntity<Object>  updateGymStaff( @RequestBody GymStaff gymStaff) {
 
         if (gymStaff.toString().equals("{}")) {

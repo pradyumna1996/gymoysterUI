@@ -21,6 +21,7 @@ public class GymMemberFollowUpController {
     }
 
     @GetMapping("/gymMemberFollowUp")
+    @CrossOrigin
     public ResponseEntity<Object> getAllMemberFollowUp() {
 
         try {
@@ -37,6 +38,7 @@ public class GymMemberFollowUpController {
     }
 
     @PostMapping("/gymMemberFollowUp/addFollowUp")
+    @CrossOrigin
     public ResponseEntity<Object> saveMemberFollowUp(@RequestBody GymMemberFollowUp gymMemberFollowUp){
         try{
             if (gymMemberFollowUp ==null) {

@@ -20,6 +20,7 @@ public class GymEventsController {
     }
 
     @GetMapping("/gymEvents")
+    @CrossOrigin
     public ResponseEntity<Object> getAllGymEvents(){
 
         try {
@@ -31,6 +32,7 @@ public class GymEventsController {
     }
 
     @GetMapping("/gymEvents/{gymEventId}")
+    @CrossOrigin
     public ResponseEntity<Object> getGymEventById(@PathVariable("gymEventId") Integer gymEventId){
 
         try {
@@ -43,6 +45,7 @@ public class GymEventsController {
 
 
     @PostMapping("/gymEvents/addEvent")
+    @CrossOrigin
     public ResponseEntity<Object> addGymEvent( @RequestBody GymEvents gymEvents) {
         try {
             if (gymEvents.toString().equals("{}")) {
@@ -56,7 +59,8 @@ public class GymEventsController {
         }
     }
 
-    @PutMapping("/gymEvents/updateEvent/")
+    @PutMapping("/gymEvents/updateEvent")
+    @CrossOrigin
     public ResponseEntity<Object> updateGymEvent( @RequestBody GymEvents gymEvents) {
         try {
             if (gymEvents.toString().equals("{}")) {

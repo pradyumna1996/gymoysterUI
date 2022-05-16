@@ -21,6 +21,7 @@ public class GymMemberController {
     }
 
     @GetMapping("/gymMembers")
+    @CrossOrigin
     public ResponseEntity<Object> getAllMembers(){
         List<GymMember> gymMembers = gymMemberService.getAllGymMembers();
         if (gymMembers.size()<=0){
@@ -31,6 +32,7 @@ public class GymMemberController {
     }
 
     @GetMapping("/gymMembers/{gymMemberId}")
+    @CrossOrigin
     public ResponseEntity<Object> getMemberById(@PathVariable("gymMemberId") Integer gymMemberId){
         GymMember gymMembers = gymMemberService.getGymMemberById(gymMemberId);
         if (gymMembers==null){
@@ -42,6 +44,7 @@ public class GymMemberController {
 
 
     @PostMapping("/gymMembers/addMember")
+    @CrossOrigin
     public ResponseEntity<Object>  addGymMember( @RequestBody GymMember gymMember) {
 
         try {
@@ -57,6 +60,7 @@ public class GymMemberController {
     }
 
     @PutMapping("/gymMembers/updateMember")
+    @CrossOrigin
     public ResponseEntity<Object>  updateGymMember( @RequestBody GymMember gymMember) {
 
         try {

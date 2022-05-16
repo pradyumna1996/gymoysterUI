@@ -25,6 +25,7 @@ public class GymMemberPackageSubscriptionController {
 
 
     @GetMapping("/memberSubscriptions")
+    @CrossOrigin
     public ResponseEntity<Object> getAllMemberSubscriptions(){
         List<GymMemberPackageSubscription> gymMemberPackageSubscriptions = gymMemberPackageSubscriptionService.getAllGymMemberSubscriptions();
         try{
@@ -41,6 +42,7 @@ public class GymMemberPackageSubscriptionController {
 
 
     @PostMapping("/memberSubscriptions/addSubscription")
+    @CrossOrigin
     public ResponseEntity<Object>  addGymMemberPackageSubscription( @RequestBody GymMemberPackageSubscription gymMemberPackageSubscription){
 
         try{

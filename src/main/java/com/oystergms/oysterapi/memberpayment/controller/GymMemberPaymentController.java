@@ -25,6 +25,7 @@ public class GymMemberPaymentController {
     }
 
     @GetMapping("/gymMemberPayments")
+    @CrossOrigin
     public ResponseEntity<Object> getAllMemberPayments(){
         try{
         List<GymMemberPayment> gymMemberPayments = gymMemberPaymentService.getAllGymMemberPayment();
@@ -40,6 +41,7 @@ public class GymMemberPaymentController {
 
 
     @PostMapping("/gymMemberPayments/addPayment")
+    @CrossOrigin
     public ResponseEntity<?>  addGymMemberPayment( @RequestBody GymMemberPayment gymMemberPayment) {
 
         try {
@@ -57,6 +59,7 @@ public class GymMemberPaymentController {
     }
 
     @GetMapping("/gymMemberPayment/{memberId}")
+    @CrossOrigin
     public ResponseEntity<Object> memberPaymentById(@PathVariable("memberId") Integer memberId) {
 
         try {
