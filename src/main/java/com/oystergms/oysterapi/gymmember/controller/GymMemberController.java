@@ -25,7 +25,7 @@ public class GymMemberController {
     public ResponseEntity<Object> getAllMembers(){
         List<GymMember> gymMembers = gymMemberService.getAllGymMembers();
         if (gymMembers.size()<=0){
-            return GymResponseHandler.generateResponse("No Members in the List", HttpStatus.OK,"");
+            return GymResponseHandler.generateResponse("No Members in the List", HttpStatus.OK,null);
         }else{
             return  GymResponseHandler.generateResponse("Member Fetched Successfully",HttpStatus.OK,gymMembers);
         }

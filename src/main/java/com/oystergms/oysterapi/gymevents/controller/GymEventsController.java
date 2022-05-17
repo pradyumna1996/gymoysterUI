@@ -25,6 +25,10 @@ public class GymEventsController {
 
         try {
             List<GymEvents> gymEvents = gymEventsService.getAllGymEvents();
+            if(gymEvents.size()<=0){
+                return GymResponseHandler.generateResponse("No Events! Please Add Events First !", HttpStatus.OK, null);
+
+            }
             return GymResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK, gymEvents);
         } catch (Exception e) {
             return GymResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
