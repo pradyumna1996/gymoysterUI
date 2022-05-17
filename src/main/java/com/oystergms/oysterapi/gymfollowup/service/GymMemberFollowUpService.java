@@ -24,4 +24,8 @@ public class GymMemberFollowUpService {
     public void saveMemberFollowUp(GymMemberFollowUp gymMemberFollowUp) {
         gymMemberFollowUpRepository.save(gymMemberFollowUp);
     }
+
+    public List<GymMemberFollowUp> getFollowUpListById(Integer gymMemberId) {
+        return gymMemberFollowUpRepository.findByGymMemberId(gymMemberId);
+    }
 }

@@ -30,6 +30,8 @@ public class GymStaff {
 
     private String gymStaffContactNumber;
 
+    private String gymStaffPhotoUrl;
+
     @ElementCollection
     private List<GymStaffDocuments> gymStaffDocuments = new ArrayList<GymStaffDocuments>();
 

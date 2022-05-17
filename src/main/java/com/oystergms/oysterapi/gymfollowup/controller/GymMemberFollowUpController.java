@@ -1,5 +1,6 @@
 package com.oystergms.oysterapi.gymfollowup.controller;
 
+import com.oystergms.oysterapi.gymattendance.memberattendance.model.GymMemberAttendance;
 import com.oystergms.oysterapi.gymfollowup.model.GymMemberFollowUp;
 import com.oystergms.oysterapi.gymfollowup.service.GymMemberFollowUpService;
 import com.oystergms.oysterapi.gymhandler.GymResponseHandler;
@@ -36,6 +37,21 @@ public class GymMemberFollowUpController {
             return GymResponseHandler.generateResponse(e.getMessage(),HttpStatus.MULTI_STATUS,null);
         }
     }
+
+    @GetMapping("/gymMemberFollowUp/{gymMemberId}")
+    @CrossOrigin
+    public ResponseEntity<Object> getFollowUpListByMemberId(@PathVariable("gymMemberId") Integer gymMemberId){
+
+        try {
+            List<GymMemberFollowUp> gymMemberFollowUp = gymMemberFollowUpService.getFollowUpListById(gymMemberId);
+            return GymResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK,gymMemberFollowUp);
+        } catch (Exception e) {
+            return GymResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
+        }
+
+    }
+
+
 
     @PostMapping("/gymMemberFollowUp/addFollowUp")
     @CrossOrigin
