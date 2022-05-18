@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @Entity
@@ -19,6 +20,9 @@ public class GymMemberPackageSubscription {
     private Integer gymMemberPackageSubscriptionId;
 
     private Double gymPackageSubscriptionDiscount;
+
+    @Temporal(TemporalType.DATE)
+    private Date gymMemberPackageSubscriptionDate;
 
     @OneToOne
     @JoinColumn(name="gym_member_id")
