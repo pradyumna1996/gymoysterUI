@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -38,7 +39,7 @@ public class GymStaff {
     private String gymStaffPhotoUrl;
 
     @Temporal(TemporalType.DATE)
-    private String gymStaffJoinedDate;
+    private Date gymStaffJoinedDate;
 
     @ElementCollection
     private List<GymStaffDocuments> gymStaffDocuments = new ArrayList<GymStaffDocuments>();
