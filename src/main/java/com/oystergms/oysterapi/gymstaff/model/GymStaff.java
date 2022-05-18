@@ -37,6 +37,9 @@ public class GymStaff {
 
     private String gymStaffPhotoUrl;
 
+    @Temporal(TemporalType.DATE)
+    private String gymStaffJoinedDate;
+
     @ElementCollection
     private List<GymStaffDocuments> gymStaffDocuments = new ArrayList<GymStaffDocuments>();
 
