@@ -56,4 +56,24 @@ public class GymMemberPackageSubscriptionController {
         return GymResponseHandler.generateResponse(e.getMessage(), HttpStatus.OK,null);
     }
     }
+
+
+    @PutMapping("/memberSubscriptions/updateSubscription")
+    @CrossOrigin
+    public ResponseEntity<Object>  updateSubscription( @RequestBody GymMemberPackageSubscription gymMemberPackageSubscription) {
+
+        try{
+            if (gymMemberPackageSubscription == null) {
+                return GymResponseHandler.generateResponse("Request Error ! Please Check Your Data",HttpStatus.OK,null);
+            } else {
+                String result = gymMemberPackageSubscriptionService.updateGymMemberSubscription(gymMemberPackageSubscription);
+                return GymResponseHandler.generateResponse("Member Updated Successful", HttpStatus.OK, result
+                );
+            }
+        }catch (Exception e){
+            return GymResponseHandler.generateResponse(e.getMessage(),HttpStatus.MULTI_STATUS,null);
+        }
+    }
+
+
 }

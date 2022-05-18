@@ -1,6 +1,7 @@
 package com.oystergms.oysterapi.gymstaff.model;
 
 import com.oystergms.oysterapi.gymmember.model.GymMemberGender;
+import com.sun.jdi.IntegerValue;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,10 @@ public class GymStaff {
 
     @Enumerated(EnumType.STRING)
     private GymMemberGender gymStaffGender;
+
+    private String gymStaffEmail;
+
+    private Integer gymStaffAge;
 
     private String gymStaffDesignation;
 

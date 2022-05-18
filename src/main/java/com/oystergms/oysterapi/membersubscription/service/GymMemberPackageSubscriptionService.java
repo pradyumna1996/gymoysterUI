@@ -26,4 +26,9 @@ public class GymMemberPackageSubscriptionService {
 
         return gymMemberPackageSubscriptionRepository.findAll();
     }
+
+    public String updateGymMemberSubscription(GymMemberPackageSubscription gymMemberPackageSubscription) {
+     gymMemberPackageSubscriptionRepository.save(gymMemberPackageSubscription);
+     return "Subscription Modified";
+    }
 }
