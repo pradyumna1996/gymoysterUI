@@ -16,6 +16,7 @@ public class GymEventsService {
 
 
     public List<GymEvents> getAllGymEvents() {
+
         return  gymEventsRepository.findAll();
     }
 

@@ -26,8 +26,7 @@ public class GymMemberPayment {
 
     @Temporal(TemporalType.DATE)
     private Date gymPackagePaymentDate;
-
-
+    
     @OneToOne
     @JoinColumn(name = "gym_member_id")
     private GymMember gymMember;
