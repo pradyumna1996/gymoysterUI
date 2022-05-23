@@ -7,8 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DueAmountResponse {
+public class PaymentHead {
 
-    private Double dueAmount;
-    private Double paidAmount;
+    private Integer gymMemberId;
+    private Double gymPackagePaidAmount;
+    private Double gymPackageSubCategoryPrice;
 }

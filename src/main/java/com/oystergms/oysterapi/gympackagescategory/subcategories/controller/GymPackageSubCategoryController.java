@@ -2,14 +2,11 @@ package com.oystergms.oysterapi.gympackagescategory.subcategories.controller;
 
 
 import com.oystergms.oysterapi.gymhandler.GymResponseHandler;
-import com.oystergms.oysterapi.gympackagescategory.maincategory.model.GymPackageMainCategory;
 import com.oystergms.oysterapi.gympackagescategory.subcategories.model.GymPackageSubCategory;
 import com.oystergms.oysterapi.gympackagescategory.subcategories.service.GymPackageSubCategoryService;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 
@@ -77,6 +74,13 @@ public class GymPackageSubCategoryController {
         }
     }
 
+
+    @GetMapping("/gymSubPackagesByCatId/{gymCategoryId}")
+    ResponseEntity<Object> getAllGymSubPackagesByMainCategoryId(@PathVariable("gymCategoryId") Integer gymCategoryId){
+
+        List<GymPackageSubCategory> gymSubPackageList = gymPackageSubCategoryService.getGymSubPackagesByMainCategoryId(gymCategoryId);
+        return GymResponseHandler.generateResponse(" Required Package Fetched",HttpStatus.OK,gymSubPackageList);
+    }
 
     @DeleteMapping("/gymSubPackages/deleteSubPackage/{gymSubPackageId}")
     @CrossOrigin

@@ -6,17 +6,12 @@ import com.oystergms.oysterapi.gymmember.model.GymMember;
 import com.oystergms.oysterapi.gymmember.service.GymMemberService;
 import com.oystergms.oysterapi.gympackagescategory.subcategories.model.GymPackageSubCategory;
 import com.oystergms.oysterapi.gympackagescategory.subcategories.service.GymPackageSubCategoryService;
-import com.oystergms.oysterapi.memberpayment.model.DueAmountResponse;
-import com.oystergms.oysterapi.memberpayment.model.GymMemberPayment;
-import com.oystergms.oysterapi.memberpayment.model.MemberPackageDueAmount;
-import com.oystergms.oysterapi.memberpayment.model.MemberPackagePaymentHead;
+import com.oystergms.oysterapi.memberpayment.model.*;
 import com.oystergms.oysterapi.memberpayment.service.GymMemberPaymentService;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.oystergms.oysterapi.membersubscription.model.GymMemberPackageSubscription;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,16 +23,19 @@ public class GymMemberPaymentController {
 
     private final GymMemberPaymentService gymMemberPaymentService;
 
-    public GymMemberPaymentController(GymMemberPaymentService gymMemberPaymentService) {
+
+    final GymPackageSubCategoryService gymPackageSubCategoryService;
+
+    final GymMemberService gymMemberService;
+
+    public GymMemberPaymentController(GymMemberPaymentService gymMemberPaymentService, GymPackageSubCategoryService gymPackageSubCategoryService, GymMemberService gymMemberService) {
         this.gymMemberPaymentService = gymMemberPaymentService;
+        this.gymPackageSubCategoryService = gymPackageSubCategoryService;
+        this.gymMemberService = gymMemberService;
     }
 
-    @Autowired
-    GymPackageSubCategoryService gymPackageSubCategoryService;
 
-    @Autowired
-    GymMemberService gymMemberService;
-
+    //1. Getting all Payment List
     @GetMapping("/gymMemberPayments")
     @CrossOrigin
     public ResponseEntity<Object> getAllMemberPayments(){
@@ -53,7 +51,24 @@ public class GymMemberPaymentController {
         }
     }
 
+    @GetMapping("/gymMemberPayments/{memberId}")
+    @CrossOrigin
+    public ResponseEntity<Object> getMemberPaymentById(@PathVariable("memberId") Integer memberId){
 
+        try{
+            List<GymMemberPayment> gymMemberPayments = gymMemberPaymentService.getGymMemberPaymentByMemberId(memberId);
+            if (gymMemberPayments ==null){
+                return GymResponseHandler.generateResponse("Nothing in Payments",HttpStatus.OK,null);
+            }else{
+                return  GymResponseHandler.generateResponse("Member Payments Fetched Successful.",HttpStatus.OK,gymMemberPayments);
+            }
+        }catch(Exception e){
+            return  GymResponseHandler.generateResponse(e.getMessage(),HttpStatus.MULTI_STATUS,null);
+        }
+    }
+
+
+    //2. Posting Payments
     @PostMapping("/gymMemberPayments/addPayment")
     @CrossOrigin
     public ResponseEntity<?>  addGymMemberPayment( @RequestBody GymMemberPayment gymMemberPayment) {
@@ -72,31 +87,25 @@ public class GymMemberPaymentController {
         }
     }
 
-    @GetMapping("/gymMemberPayment/{memberId}")
-    @CrossOrigin
-    public ResponseEntity<Object> memberPaymentById(@PathVariable("memberId") Integer memberId) {
-
-        try {
-            GymMemberPayment gymMemberPayment = gymMemberPaymentService.getGymMemberPaymentByMemberId(memberId);
-            System.out.println(gymMemberPayment);
-            Double dueAmount = gymMemberPayment.getGymPackageSubCategory().getGymPackageSubCategoryPrice() - gymMemberPayment.getGymPackagePaidAmount();
-            DueAmountResponse dueAmountResponse = new DueAmountResponse();
-            dueAmountResponse.setDueAmount(dueAmount);
-            return GymResponseHandler.generateResponse("Successfully Retrieved Data !" , HttpStatus.OK, dueAmountResponse);
-        } catch (Exception e){
-            return GymResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
-
-        }
-    }
-
-    @GetMapping("/gymMemberPayment/packagePaidAmount/{memberId}/{subPackageId}")
+    @GetMapping("/gymMemberDueAmount/{memberId}/{subPackageId}")
     @CrossOrigin
     public ResponseEntity<Object> packagePaymentAmount(@PathVariable("memberId") Integer memberId , @PathVariable("subPackageId") Integer subPackageId) {
 
         try{
+
            Double package_paid_amount= gymMemberPaymentService.gymMemberPackagePaidAmount(memberId,subPackageId);
            DueAmountResponse due_amount= new DueAmountResponse();
-           due_amount.setDueAmount(package_paid_amount);
+           Double gymPackagePrice=null;
+           due_amount.setPaidAmount(package_paid_amount);
+           List<GymPackageSubCategory> gymPackageSubCategory = gymPackageSubCategoryService.getSubCategories();
+
+           for( GymPackageSubCategory gymSubPackage:gymPackageSubCategory){
+               gymPackagePrice = gymSubPackage.getGymPackageSubCategoryPrice();
+               Double dueAmount = gymPackagePrice-package_paid_amount;
+               due_amount.setDueAmount(dueAmount);
+           }
+
+
            return GymResponseHandler.generateResponse("Successfully Retrieved Data !" , HttpStatus.OK, due_amount);
         } catch (Exception e){
             return GymResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
@@ -126,42 +135,72 @@ public class GymMemberPaymentController {
         @CrossOrigin
         public ResponseEntity<Object> gymMemberPaymentHead() {
 
-        List<MemberPackagePaymentHead> memberPackagePaymentHead = new ArrayList<>();
+        List<MemberPackagePaymentHead> memberPackagePaymentHeadList = new ArrayList<>();
 
-        List<GymMember> gymMember = gymMemberService.getAllGymMembers();
+        List<GymMember> gymMemberList = gymMemberService.getAllGymMembers();
 
-        List<GymPackageSubCategory> gymPackageSubCategories =gymPackageSubCategoryService.getSubCategories();
-        List<Double> PaidAmountList = new ArrayList<>();
+        List<GymPackageSubCategory> gymPackageSubCategoriesList = gymPackageSubCategoryService.getSubCategories();
 
-        for(GymMember gymMemberDetails: gymMember){
-            MemberPackagePaymentHead memberHead = new MemberPackagePaymentHead();
-            memberHead.setGymMemberFullName(gymMemberDetails.getGymMemberFullName());
-            memberHead.setGymMemberId(gymMemberDetails.getGymMemberId());
+        List<Integer> gymMemberIdFetched = new ArrayList<>();
 
-            for(GymPackageSubCategory gymPackageSubCategory :gymPackageSubCategories){
-                memberHead.setGymSubPackageId(gymPackageSubCategory.getGymPackageSubCategoryId());
-                Double getAmount = gymMemberPaymentService.gymMemberPackagePaidAmount(gymMemberDetails.getGymMemberId(),gymPackageSubCategory.getGymPackageSubCategoryId());
-                PaidAmountList.add(getAmount);
+        List<Double> paidAmountList = new ArrayList<>();
+
+        List<Double> gymPackagePriceList = new ArrayList<>();
+
+            for (GymMember gymMemberDetails : gymMemberList) {
+
+                MemberPackagePaymentHead memberPackageHead = new MemberPackagePaymentHead();
+
+                gymMemberIdFetched.add(gymMemberDetails.getGymMemberId());
+
+                memberPackageHead.setGymMemberId(gymMemberDetails.getGymMemberId());
+
+                memberPackageHead.setGymMemberFullName(gymMemberDetails.getGymMemberFullName());
+
+                Double totalPaidAmount = null;
+                //Total Paid Amount By Member
+                for (Integer memberIdList : gymMemberIdFetched) {
+                    totalPaidAmount = gymMemberPaymentService.gymMemberPackagePaidAmountByMemberId(memberIdList);
+                    if(totalPaidAmount==null){
+                        totalPaidAmount=0.0;
+                    }
+                }
+
+
+
+                memberPackageHead.setGymTotalPaidAmount(totalPaidAmount);
+                paidAmountList.add(totalPaidAmount);
+
+
+                for(Double paidAmount: paidAmountList){
+
+                    List<GymPackageSubCategory> gymPackageSubCategory = gymPackageSubCategoryService.getSubCategories();
+
+                    for( GymPackageSubCategory gymSubPackage:gymPackageSubCategory){
+                        Double gymPackagePrice = gymSubPackage.getGymPackageSubCategoryPrice();
+                        Double dueAmount = gymPackagePrice-paidAmount;
+                        memberPackageHead.setGymTotalDueAmount(dueAmount);
+                    }
+                }
+
+                 memberPackagePaymentHeadList.add(memberPackageHead);
             }
 
-            for(Double pa:PaidAmountList){
-                memberHead.setGymTotalPaidAmount(pa);
-            }
-            System.out.println(memberHead);
 
-            memberPackagePaymentHead.add(memberHead);
+            System.out.println("Package Category Price:"+gymPackagePriceList);
+            System.out.println("Paid Amount List:" + paidAmountList);
+            System.out.println("MemberId : " + gymMemberIdFetched);
 
-
-            }
-
-            System.out.println(PaidAmountList);
-            System.out.println(memberPackagePaymentHead);
-
-        return GymResponseHandler.generateResponse("Data Fetched", HttpStatus.MULTI_STATUS,memberPackagePaymentHead);
-
+            return GymResponseHandler.generateResponse("Data Fetched", HttpStatus.MULTI_STATUS,memberPackagePaymentHeadList);
     }
 
+    @GetMapping("/paymentHead")
+    @CrossOrigin
+    public ResponseEntity<Object> getPaymentHead(){
 
+       List <PaymentHead> paymentHead = (List<PaymentHead>) gymMemberPaymentService.gymMemberHead();
 
+        return GymResponseHandler.generateResponse("Data",HttpStatus.OK,paymentHead);
+    }
 
 }

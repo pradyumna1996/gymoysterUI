@@ -1,6 +1,7 @@
 package com.oystergms.oysterapi.membersubscription.service;
 
-import com.oystergms.oysterapi.gymstaff.service.GymStaffRepositoryService;
+import com.oystergms.oysterapi.gympackagescategory.subcategories.model.GymPackageSubCategory;
+import com.oystergms.oysterapi.gympackagescategory.subcategories.service.GymPackageSubCategoryService;
 import com.oystergms.oysterapi.membersubscription.model.GymMemberPackageSubscription;
 import com.oystergms.oysterapi.membersubscription.repository.GymMemberPackageSubscriptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,12 @@ public class GymMemberPackageSubscriptionService {
 
     private final GymMemberPackageSubscriptionRepository gymMemberPackageSubscriptionRepository;
 
+    @Autowired
+    private GymPackageSubCategoryService gymPackageSubCategoryService;
     public GymMemberPackageSubscriptionService(GymMemberPackageSubscriptionRepository gymMemberPackageSubscriptionRepository) {
         this.gymMemberPackageSubscriptionRepository = gymMemberPackageSubscriptionRepository;
     }
+
 
 
     public void addGymMemberPackageSubscription(GymMemberPackageSubscription gymMemberPackageSubscription) {
@@ -31,4 +35,7 @@ public class GymMemberPackageSubscriptionService {
      gymMemberPackageSubscriptionRepository.save(gymMemberPackageSubscription);
      return "Subscription Modified";
     }
+
+
+
 }

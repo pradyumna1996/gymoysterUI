@@ -1,16 +1,13 @@
 package com.oystergms.oysterapi.membersubscription.controller;
 
 import com.oystergms.oysterapi.gymhandler.GymResponseHandler;
-import com.oystergms.oysterapi.gymmember.model.GymMember;
 import com.oystergms.oysterapi.membersubscription.model.GymMemberPackageSubscription;
 import com.oystergms.oysterapi.membersubscription.service.GymMemberPackageSubscriptionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -74,6 +71,7 @@ public class GymMemberPackageSubscriptionController {
             return GymResponseHandler.generateResponse(e.getMessage(),HttpStatus.MULTI_STATUS,null);
         }
     }
+
 
 
 }

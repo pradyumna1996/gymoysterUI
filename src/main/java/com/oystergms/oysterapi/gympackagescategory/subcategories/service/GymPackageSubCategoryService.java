@@ -41,4 +41,9 @@ public class GymPackageSubCategoryService {
     public GymPackageSubCategory getSubPackagesById(Integer gymSubPackageId) {
         return gymPackageSubCategoryRepository.findById(gymSubPackageId).get();
     }
+
+    public List<GymPackageSubCategory> getGymSubPackagesByMainCategoryId(Integer gymCategoryId) {
+
+    return gymPackageSubCategoryRepository.getSubPackagesByCategoryId(gymCategoryId);
+    }
 }
